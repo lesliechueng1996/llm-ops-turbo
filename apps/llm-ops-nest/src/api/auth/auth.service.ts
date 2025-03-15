@@ -1,11 +1,13 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { AccountService } from '../account/account.service';
 import { JwtService } from '@nestjs/jwt';
 import { comparePassword } from '../../common/util/password.util';
 import { Account } from '@repo/lib-prisma';
 import { v4 as uuidv4 } from 'uuid';
 import { JwtPayload } from './jwt-payload.type';
+import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
 
+const REFRESH_TOKEN_PREFIX = 'LLM-OPS-NEST:REFRESH_TOKEN:';
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
@@ -13,6 +15,7 @@ export class AuthService {
   constructor(
     private readonly accountService: AccountService,
     private readonly jwtService: JwtService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   async validateAccount(email: string, password: string) {
@@ -41,10 +44,19 @@ export class AuthService {
     };
 
     const refreshToken = uuidv4();
+    await this.cacheManager.set(
+      `${REFRESH_TOKEN_PREFIX}${account.id}`,
+      refreshToken,
+      1000 * 60 * 60 * 24 * 7,
+    );
 
     return {
       accessToken: this.jwtService.sign(payload),
       refreshToken,
     };
+  }
+
+  async clearRefreshToken(accountId: string) {
+    return this.cacheManager.del(`${REFRESH_TOKEN_PREFIX}${accountId}`);
   }
 }

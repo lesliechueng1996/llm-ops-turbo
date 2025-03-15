@@ -47,11 +47,13 @@ export class AuthController {
   })
   @UseGuards(JwtAuthGuard)
   @Post('logout')
-  logout(@Req() req: Request) {
+  async logout(@Req() req: Request) {
     const account = req.user as {
       accountId: string;
     };
 
-    console.log(account);
+    await this.authService.clearRefreshToken(account.accountId);
+
+    return null;
   }
 }
