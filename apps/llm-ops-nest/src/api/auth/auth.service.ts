@@ -1,4 +1,9 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AccountService } from '../account/account.service';
 import { JwtService } from '@nestjs/jwt';
 import { comparePassword } from '../../common/util/password.util';
@@ -6,6 +11,7 @@ import { Account } from '@repo/lib-prisma';
 import { v4 as uuidv4 } from 'uuid';
 import { JwtPayload } from './jwt-payload.type';
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
+import { RefreshTokenReqDto } from '@repo/lib-api-schema';
 
 const REFRESH_TOKEN_PREFIX = 'LLM-OPS-NEST:REFRESH_TOKEN:';
 @Injectable()
@@ -58,5 +64,30 @@ export class AuthService {
 
   async clearRefreshToken(accountId: string) {
     return this.cacheManager.del(`${REFRESH_TOKEN_PREFIX}${accountId}`);
+  }
+
+  async refreshToken(data: RefreshTokenReqDto) {
+    const { refreshToken, accountId } = data;
+    const cachedRefreshToken = await this.cacheManager.get(
+      `${REFRESH_TOKEN_PREFIX}${accountId}`,
+    );
+    if (!cachedRefreshToken) {
+      this.logger.error(`Refresh token not found: ${accountId}`);
+      throw new UnauthorizedException('请重新登录');
+    }
+
+    if (cachedRefreshToken !== refreshToken) {
+      this.logger.error(`Refresh token mismatch: ${accountId}`);
+      await this.clearRefreshToken(accountId);
+      throw new UnauthorizedException('请重新登录');
+    }
+
+    const account = await this.accountService.findAccountById(accountId);
+    if (!account) {
+      this.logger.error(`Account not found: ${accountId}`);
+      throw new UnauthorizedException('请重新登录');
+    }
+
+    return this.generateToken(account);
   }
 }

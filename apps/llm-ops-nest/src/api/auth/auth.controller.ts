@@ -1,7 +1,19 @@
-import { Controller, Post, Req, UseGuards, Headers } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Req,
+  UseGuards,
+  Headers,
+  Body,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
-import { CredentialReqDto, CredentialResDto } from '@repo/lib-api-schema';
+import {
+  CredentialReqDto,
+  CredentialResDto,
+  RefreshTokenReqDto,
+  RefreshTokenResDto,
+} from '@repo/lib-api-schema';
 import { Request } from 'express';
 import { ApiOperationWithErrorResponse } from 'src/decorator/swagger.decorator';
 import { AuthService } from './auth.service';
@@ -55,5 +67,17 @@ export class AuthController {
     await this.authService.clearRefreshToken(account.accountId);
 
     return null;
+  }
+
+  @ApiOperationWithErrorResponse({
+    summary: 'Refresh Token',
+    description: 'Refresh Token',
+    auth: false,
+    body: RefreshTokenReqDto,
+    response: RefreshTokenResDto,
+  })
+  @Post('refresh')
+  async refreshToken(@Body() body: RefreshTokenReqDto) {
+    return this.authService.refreshToken(body);
   }
 }
