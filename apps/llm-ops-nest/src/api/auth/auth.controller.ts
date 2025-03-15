@@ -1,11 +1,12 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiBody, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CredentialReqDto, CredentialResDto } from '@repo/lib-api-schema';
+import { ApiOperationWithErrorResponse } from 'src/decorator/swagger.decorator';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  @ApiOperation({
+  @ApiOperationWithErrorResponse({
     summary: 'Credential Login',
     description: 'Login with email and password',
   })
