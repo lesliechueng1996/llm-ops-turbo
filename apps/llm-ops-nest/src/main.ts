@@ -2,9 +2,15 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { patchNestJsSwagger } from 'nestjs-zod';
 import { AppModule } from './app.module';
+import { ConsoleLogger } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: new ConsoleLogger({
+      logLevels: ['error', 'warn', 'log', 'debug'],
+      prefix: 'LLM-OPS-NEST',
+    }),
+  });
 
   // Swagger
   patchNestJsSwagger();
