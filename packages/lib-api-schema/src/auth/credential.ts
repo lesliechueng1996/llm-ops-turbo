@@ -21,8 +21,10 @@ export type CredentialReq = z.infer<typeof CredentialReqSchema>;
 export class CredentialReqDto extends createZodDto(CredentialReqSchema) {}
 
 export const CredentialResSchema = z.object({
-  accessToken: z.string(),
-  refreshToken: z.string(),
+  accessToken: z.string().describe('访问令牌'),
+  refreshToken: z.string().describe('刷新令牌'),
 });
 
 export type CredentialRes = z.infer<typeof CredentialResSchema>;
+
+export class CredentialResDto extends createZodDto(CredentialResSchema) {}

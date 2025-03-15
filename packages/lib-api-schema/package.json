@@ -6,8 +6,7 @@
         ".": "./dist/index.js"
     },
     "scripts": {
-        "build": "tsc",
-        "dev": "tsc --watch"
+        "build": "tsc"
     },
     "dependencies": {
         "nestjs-zod": "^4.3.1",
