@@ -4,6 +4,8 @@ import { patchNestJsSwagger } from 'nestjs-zod';
 import { AppModule } from './app.module';
 import { ConsoleLogger } from '@nestjs/common';
 import { GlobalExceptionFilter } from './filter/global-exception.filter';
+import { LoggingInterceptor } from './interceptor/logging.interceptor';
+import { ResponseInterceptor } from './interceptor/response.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -30,6 +32,9 @@ async function bootstrap() {
 
   const httpAdapterHost = app.get(HttpAdapterHost);
   app.useGlobalFilters(new GlobalExceptionFilter(httpAdapterHost));
+
+  app.useGlobalInterceptors(new LoggingInterceptor());
+  app.useGlobalInterceptors(new ResponseInterceptor());
 
   await app.listen(process.env.PORT ?? 3000);
 }
