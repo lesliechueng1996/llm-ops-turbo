@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_PIPE } from '@nestjs/core';
 import { ZodValidationPipe } from 'nestjs-zod';
 import { AccountModule } from './api/account/account.module';
+import { OauthModule } from './api/oauth/oauth.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AccountModule } from './api/account/account.module';
     PrismaModule,
     AuthModule,
     AccountModule,
+    OauthModule,
   ],
   providers: [
     {

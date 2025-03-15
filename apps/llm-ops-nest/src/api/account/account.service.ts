@@ -12,4 +12,14 @@ export class AccountService {
       },
     });
   }
+
+  async createAccount(email: string, name: string, avatar: string) {
+    return this.prisma.account.create({
+      data: {
+        email,
+        name,
+        avatar,
+      },
+    });
+  }
 }

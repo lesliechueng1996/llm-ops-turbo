@@ -65,6 +65,7 @@ model AccountOAuth {
   createdAt      DateTime @default(now()) @map("created_at") @db.Timestamp(3)
   updatedAt      DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp(3)
 
+  @@unique([provider, openid], name: "uk_account_oauth_provider_openid")
   @@index([accountId, provider], name: "idx_account_oauth_account_id_provider")
   @@map("account_oauth")
 }
