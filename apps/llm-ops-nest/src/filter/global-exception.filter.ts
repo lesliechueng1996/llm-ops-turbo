@@ -36,8 +36,16 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         .join(',');
     } else if (exception instanceof HttpException) {
       const response = exception.getResponse();
-      message =
-        typeof response === 'string' ? response : JSON.stringify(response);
+      if (typeof response === 'string') {
+        message = response;
+      } else if (
+        'message' in response &&
+        typeof response.message === 'string'
+      ) {
+        message = response.message;
+      } else {
+        message = JSON.stringify(response);
+      }
     }
 
     const responseBody = {

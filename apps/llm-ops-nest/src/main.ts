@@ -19,6 +19,7 @@ async function bootstrap() {
     .setTitle('LLM Ops API')
     .setDescription('The LLM Ops API description')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const documentFactory = () =>
     SwaggerModule.createDocument(app, swaggerConfig);

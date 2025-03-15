@@ -1,27 +1,38 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { ApiBody, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiTags } from '@nestjs/swagger';
 import { CredentialReqDto, CredentialResDto } from '@repo/lib-api-schema';
+import { Request } from 'express';
 import { ApiOperationWithErrorResponse } from 'src/decorator/swagger.decorator';
+import { AuthService } from './auth.service';
+import { Account } from '@repo/lib-prisma';
+import { JwtAuthGuard } from '../../guard/jwt-auth.guard';
 
-@ApiTags('auth')
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
+  constructor(private readonly authService: AuthService) {}
+
   @ApiOperationWithErrorResponse({
     summary: 'Credential Login',
     description: 'Login with email and password',
-  })
-  @ApiBody({
-    type: CredentialReqDto,
-  })
-  @ApiOkResponse({
-    type: CredentialResDto,
+    auth: false,
+    body: CredentialReqDto,
+    response: CredentialResDto,
   })
   @Post('credential')
-  credentialLogin(@Body() body: CredentialReqDto) {
-    console.log(body);
-    return {
-      accessToken: '123',
-      refreshToken: '456',
-    };
+  @UseGuards(AuthGuard('local'))
+  async credentialLogin(@Req() req: Request) {
+    return this.authService.generateToken(req.user as Account);
+  }
+
+  @ApiOperationWithErrorResponse({
+    summary: 'Logout',
+    description: 'Logout',
+  })
+  @UseGuards(JwtAuthGuard)
+  @Post('logout')
+  logout(@Req() req: Request) {
+    console.log(req.user);
   }
 }
