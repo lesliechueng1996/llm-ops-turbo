@@ -22,4 +22,16 @@ export class AccountService {
       },
     });
   }
+
+  async updateAccountLoginInfo(id: string, ip: string) {
+    return this.prisma.account.update({
+      where: {
+        id,
+      },
+      data: {
+        lastLoginIp: ip,
+        lastLoginAt: new Date(),
+      },
+    });
+  }
 }

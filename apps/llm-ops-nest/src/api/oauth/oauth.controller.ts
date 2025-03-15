@@ -1,14 +1,18 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards, Headers } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { Account } from '@repo/lib-prisma';
 import { Request } from 'express';
 import { AuthService } from '../auth/auth.service';
+import { AccountService } from '../account/account.service';
 
 @ApiTags('OAuth')
 @Controller('oauth')
 export class OauthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly accountService: AccountService,
+  ) {}
 
   @Get('github')
   @UseGuards(AuthGuard('github'))
@@ -18,8 +22,18 @@ export class OauthController {
 
   @Get('authorize/github')
   @UseGuards(AuthGuard('github'))
-  async authorizeGithub(@Req() req: Request) {
+  async authorizeGithub(
+    @Req() req: Request,
+    @Headers('x-forwarded-for') forwarded: string,
+  ) {
     const account = req.user as Account;
+    const ip = forwarded ? forwarded.split(',')[0].trim() : req.ip;
+
+    await this.accountService.updateAccountLoginInfo(
+      account.id,
+      ip || 'Unknown',
+    );
+
     return this.authService.generateToken(account);
   }
 }

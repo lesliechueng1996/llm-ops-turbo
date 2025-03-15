@@ -39,6 +39,7 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
     const avatarUrl = photos?.[0]?.value;
 
     let account: Account | null = null;
+    let accountOAuthId: string | null = null;
 
     const accountOAuth = await this.oauthService.findAccountOAuthById(
       GITHUB_PROVIDER,
@@ -54,15 +55,19 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
         );
       }
 
-      await this.oauthService.createAccountOAuth(
+      const createdAccountOAuth = await this.oauthService.createAccountOAuth(
         account.id,
         GITHUB_PROVIDER,
         id,
         accessToken,
       );
+      accountOAuthId = createdAccountOAuth.id;
     } else {
       account = accountOAuth.account;
+      accountOAuthId = accountOAuth.id;
     }
+
+    await this.oauthService.updateEncryptedToken(accountOAuthId, accessToken);
 
     return account;
   }

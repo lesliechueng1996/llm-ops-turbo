@@ -34,4 +34,15 @@ export class OauthService {
       },
     });
   }
+
+  async updateEncryptedToken(id: string, token: string) {
+    return this.prisma.accountOAuth.update({
+      where: {
+        id,
+      },
+      data: {
+        encryptedToken: token,
+      },
+    });
+  }
 }
