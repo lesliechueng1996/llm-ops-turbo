@@ -1,18 +1,45 @@
 {
-    "$schema": "https://turbo.build/schema.json",
-    "ui": "tui",
-    "tasks": {
-      "//#lint": {},
-      "//#lint:fix": {
-        "cache": false
-      },
-      "build": {
-        "dependsOn": ["^build"],
-        "outputs": ["dist/**"]
-      },
-      "dev": {
-        "cache": false,
-        "persistent": true
-      }
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "@repo/lib-api-schema#build": {
+      "outputs": ["dist/**"]
+    },
+    "@repo/lib-prisma#db:generate": {
+      "cache": false
+    },
+    "@repo/lib-prisma#build": {
+      "dependsOn": ["@repo/lib-prisma#db:generate"],
+      "outputs": ["dist/**"]
+    },
+    "llm-ops-react#build": {
+      "dependsOn": ["@repo/lib-api-schema#build"],
+      "outputs": ["dist/**"]
+    },
+    "llm-ops-react#dev": {
+      "dependsOn": ["@repo/lib-api-schema#build"],
+      "cache": false,
+      "persistent": true
+    },
+    "llm-ops-nest#build": {
+      "dependsOn": ["@repo/lib-api-schema#build", "@repo/lib-prisma#build"],
+      "outputs": ["dist/**"]
+    },
+    "llm-ops-nest#dev": {
+      "dependsOn": ["@repo/lib-api-schema#build", "@repo/lib-prisma#build"],
+      "cache": false,
+      "persistent": true
+    },
+    "db:migrate": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:deploy": {
+      "cache": false
+    },
+    "//#lint": {},
+    "//#lint:fix": {
+      "cache": false
     }
+  }
 }

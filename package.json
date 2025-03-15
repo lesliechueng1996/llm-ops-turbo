@@ -4,9 +4,12 @@
 	"version": "0.0.1",
 	"scripts": {
 		"build": "turbo run build",
-		"dev": "turbo run dev",
+		"dev": "turbo run dev --filter=llm-ops-*",
 		"lint": "biome check .",
-		"lint:fix": "biome check . --write"
+		"lint:fix": "biome check . --write",
+		"db:generate": "turbo run @repo/lib-prisma#db:generate",
+		"db:migrate": "turbo run db:migrate",
+		"db:deploy": "turbo run db:deploy"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",

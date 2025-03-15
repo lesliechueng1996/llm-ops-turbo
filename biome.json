@@ -8,7 +8,12 @@
   "files": {
     "ignoreUnknown": false,
     "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
-    "ignore": ["**/node_modules/**", "**/dist/**", "**/components/ui/**"]
+    "ignore": [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/components/ui/**",
+      "**/generated/**"
+    ]
   },
   "formatter": {
     "enabled": true,
