@@ -2,13 +2,21 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-
+import { CredentialReq } from '@repo/lib-api-schema'
 function App() {
   const [count, setCount] = useState(0)
 
+  const handleLogin = () => {
+    const credentialReq: CredentialReq = {
+      email: 'test@test.com',
+      password: '123456',
+    }
+    console.log(credentialReq);
+  }
+
   return (
     <>
-      <div>
+      <div onClick={handleLogin}>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
