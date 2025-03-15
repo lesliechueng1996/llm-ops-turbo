@@ -1,13 +1,16 @@
 {
+	"name": "llm-ops-turbo",
+	"private": true,
+	"version": "0.0.1",
 	"scripts": {
 		"build": "turbo run build",
 		"dev": "turbo run dev"
 	},
-	"workspaces": [
-		"apps/*",
-		"packages/*"
-	],
 	"devDependencies": {
 		"turbo": "^2.4.4"
+	},
+	"packageManager": "pnpm@10.6.3",
+	"engines": {
+		"node": ">=20.11.0"
 	}
 }
