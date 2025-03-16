@@ -1,11 +1,17 @@
-import { Button } from '@/components/ui/button';
+import { Toaster } from '@/components/ui/sonner.tsx';
+import LoginPage from '@/pages/login-page/LoginPage.tsx';
+import { BrowserRouter, Route, Routes } from 'react-router';
 
 function App() {
   return (
-    <div>
-      <h1>Hello World</h1>
-      <Button>Click me</Button>
-    </div>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+        </Routes>
+      </BrowserRouter>
+      <Toaster position="top-center" richColors closeButton />
+    </>
   );
 }
 

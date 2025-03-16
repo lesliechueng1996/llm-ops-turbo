@@ -4,6 +4,22 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility required-label {
+  &::after {
+    content: '*';
+    color: var(--destructive);
+    padding-left: 0.25rem;
+  }
+}
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -117,5 +133,8 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  button {
+    @apply cursor-pointer;
   }
 }

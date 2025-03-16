@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 export const wrapResponseSchema = <T>(data: z.ZodType<T>) => {
   return z.object({
-    code: z.number().describe('HTTP status code'),
+    statusCode: z.number().describe('HTTP status code'),
     message: z.string().describe('Response message'),
     data,
   });

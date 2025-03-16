@@ -24,7 +24,7 @@ export class OauthController {
   @UseGuards(AuthGuard('github'))
   async authorizeGithub(
     @Req() req: Request,
-    @Headers('x-forwarded-for') forwarded: string,
+    @Headers('x-forwarded-for') forwarded: string | undefined,
   ) {
     const account = req.user as Account;
     const ip = forwarded ? forwarded.split(',')[0].trim() : req.ip;

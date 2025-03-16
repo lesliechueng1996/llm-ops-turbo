@@ -13,7 +13,7 @@ export class ResponseInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((data) => {
         return {
-          code: HttpStatus.OK,
+          statusCode: HttpStatus.OK,
           message: 'Success',
           data: data || null,
         };
