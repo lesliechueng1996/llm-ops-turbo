@@ -1,10 +1,10 @@
-import { Controller, Get, Req, UseGuards, Headers } from '@nestjs/common';
+import { Controller, Get, Headers, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { Account } from '@repo/lib-prisma';
 import { Request } from 'express';
-import { AuthService } from '../auth/auth.service';
 import { AccountService } from '../account/account.service';
+import { AuthService } from '../auth/auth.service';
 
 @ApiTags('OAuth')
 @Controller('oauth')

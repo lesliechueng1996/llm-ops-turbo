@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { OauthController } from './oauth.controller';
-import { OauthService } from './oauth.service';
-import { GithubStrategy } from './github.strategy';
 import { AccountModule } from '../account/account.module';
 import { AuthModule } from '../auth/auth.module';
+import { GithubStrategy } from './github.strategy';
+import { OauthController } from './oauth.controller';
+import { OauthService } from './oauth.service';
 
 @Module({
   imports: [AccountModule, AuthModule],

@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
+import { Account } from '@repo/lib-prisma';
 import { Profile, Strategy } from 'passport-github2';
 import { AccountService } from '../account/account.service';
 import { OauthService } from './oauth.service';
-import { Account } from '@repo/lib-prisma';
 
 const GITHUB_PROVIDER = 'github';
 

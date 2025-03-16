@@ -1,10 +1,10 @@
 import {
+  Body,
   Controller,
+  Headers,
   Post,
   Req,
   UseGuards,
-  Headers,
-  Body,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
@@ -14,12 +14,12 @@ import {
   RefreshTokenReqDto,
   RefreshTokenResDto,
 } from '@repo/lib-api-schema';
+import { Account } from '@repo/lib-prisma';
 import { Request } from 'express';
 import { ApiOperationWithErrorResponse } from 'src/decorator/swagger.decorator';
-import { AuthService } from './auth.service';
-import { Account } from '@repo/lib-prisma';
 import { JwtAuthGuard } from '../../guard/jwt-auth.guard';
 import { AccountService } from '../account/account.service';
+import { AuthService } from './auth.service';
 
 @ApiTags('Auth')
 @Controller('auth')
