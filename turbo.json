@@ -21,6 +21,10 @@
       "cache": false,
       "persistent": true
     },
+    "llm-ops-react#shadcn": {
+      "cache": false,
+      "persistent": true
+    },
     "llm-ops-nest#build": {
       "dependsOn": ["@repo/lib-api-schema#build", "@repo/lib-prisma#build"],
       "outputs": ["dist/**"]
