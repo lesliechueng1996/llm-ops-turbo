@@ -55,8 +55,13 @@ const LoginForm = () => {
     }
   };
 
-  const handleGithubClick = () => {
-    window.location.href = `${baseUrl}/auth/github`;
+  const handleGithubClick = async () => {
+    try {
+      setLoginLoading(true);
+      window.location.href = `${baseUrl}/oauth/github`;
+    } finally {
+      setLoginLoading(false);
+    }
   };
 
   return (
