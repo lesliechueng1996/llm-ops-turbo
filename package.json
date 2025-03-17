@@ -10,7 +10,8 @@
 		"db:generate": "turbo run @repo/lib-prisma#db:generate",
 		"db:migrate": "turbo run db:migrate",
 		"db:deploy": "turbo run db:deploy",
-		"shadcn": "turbo run shadcn --filter=llm-ops-react"
+		"shadcn": "turbo run shadcn --filter=llm-ops-react",
+		"schema:build": "turbo run @repo/lib-api-schema#build"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",

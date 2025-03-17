@@ -1,6 +1,6 @@
 import { createKeyv } from '@keyv/redis';
 import { CacheModule } from '@nestjs/cache-manager';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_PIPE } from '@nestjs/core';
 import { ZodValidationPipe } from 'nestjs-zod';
@@ -8,6 +8,8 @@ import { AccountModule } from './api/account/account.module';
 import { AuthModule } from './api/auth/auth.module';
 import { OauthModule } from './api/oauth/oauth.module';
 import { PrismaModule } from './common/prisma/prisma.module';
+import { AlsModule } from './common/als/als.module';
+import { AlsMiddleware } from './common/als/als.middleware';
 
 @Module({
   imports: [
@@ -22,6 +24,7 @@ import { PrismaModule } from './common/prisma/prisma.module';
         stores: [createKeyv(configService.get('REDIS_URL'))],
       }),
     }),
+    AlsModule,
     PrismaModule,
     AuthModule,
     AccountModule,
@@ -34,4 +37,8 @@ import { PrismaModule } from './common/prisma/prisma.module';
     },
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AlsMiddleware).forRoutes('*');
+  }
+}

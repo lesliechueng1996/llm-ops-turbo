@@ -3,8 +3,6 @@ import { BaseResponse, RefreshTokenRes } from '@repo/lib-api-schema';
 import { jwtDecode } from 'jwt-decode';
 import qs from 'qs';
 
-const credentialStore = useCredentialStore.getState();
-
 export const baseUrl = 'http://localhost:3000/api';
 
 export class ApiError extends Error {}
@@ -34,9 +32,9 @@ const refreshToken = async (): Promise<string> => {
   }
 
   refreshTokenPromise = new Promise<string>((resolve, reject) => {
-    const { accessToken, refreshToken } = credentialStore;
+    const { accessToken, refreshToken } = useCredentialStore.getState();
     if (!accessToken || !refreshToken) {
-      credentialStore.clear();
+      useCredentialStore.getState().clear();
       reject(new AuthError('请重新登录'));
       return;
     }
@@ -44,7 +42,7 @@ const refreshToken = async (): Promise<string> => {
     try {
       const decoded = jwtDecode(refreshToken);
       if (!decoded.sub) {
-        credentialStore.clear();
+        useCredentialStore.getState().clear();
         reject(new AuthError('请重新登录'));
         return;
       }
@@ -74,17 +72,19 @@ const refreshToken = async (): Promise<string> => {
             throw new AuthError('刷新令牌响应无效');
           }
 
-          credentialStore.setCredential(data.accessToken, data.refreshToken);
+          useCredentialStore
+            .getState()
+            .setCredential(data.accessToken, data.refreshToken);
           resolve(data.accessToken);
         })
         .catch((error) => {
-          credentialStore.clear();
+          useCredentialStore.getState().clear();
           reject(
             error instanceof AuthError ? error : new AuthError('请重新登录'),
           );
         });
     } catch (error) {
-      credentialStore.clear();
+      useCredentialStore.getState().clear();
       reject(new AuthError('请重新登录'));
     }
   }).finally(() => {
@@ -128,25 +128,17 @@ const request = async <T>(
 
   // 构建URL
   let finalUrl: string;
-  try {
-    const urlObj = new URL(url.startsWith('http') ? url : `${baseUrl}${url}`);
-
-    if (method?.toLowerCase() === 'get' && query) {
-      for (const [key, value] of Object.entries(query)) {
-        urlObj.searchParams.append(key, String(value));
-      }
-    }
-
-    finalUrl = urlObj.toString();
-  } catch (error) {
-    // 回退到简单的URL拼接
+  if (url.startsWith('http')) {
+    finalUrl = url;
+  } else {
     finalUrl = `${baseUrl}${url}`;
-    if (method?.toLowerCase() === 'get' && query) {
-      finalUrl = `${finalUrl}?${qs.stringify(query)}`;
-    }
   }
 
-  // 统一处理请求头
+  if (query) {
+    const queryString = qs.stringify(query);
+    finalUrl = `${finalUrl}${finalUrl.includes('?') ? '&' : '?'}${queryString}`;
+  }
+
   const headers = new Headers(options.headers);
 
   if (
@@ -159,7 +151,9 @@ const request = async <T>(
     headers.set('Content-Type', 'application/json');
   }
 
-  const { accessToken } = credentialStore;
+  // 每次请求时获取最新的状态
+  const { accessToken } = useCredentialStore.getState();
+  console.log(accessToken);
   if (!accessToken) {
     throw new AuthError('请重新登录');
   }
