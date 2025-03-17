@@ -1,6 +1,6 @@
-import { jwtDecode } from 'jwt-decode';
 import useCredentialStore from '@/stores/credential';
 import { BaseResponse, RefreshTokenRes } from '@repo/lib-api-schema';
+import { jwtDecode } from 'jwt-decode';
 import qs from 'qs';
 
 const credentialStore = useCredentialStore.getState();

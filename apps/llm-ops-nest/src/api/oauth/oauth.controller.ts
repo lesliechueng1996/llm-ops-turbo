@@ -6,12 +6,12 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
+import { AuthorizeGithubResDto } from '@repo/lib-api-schema';
 import { Account } from '@repo/lib-prisma';
 import { Request } from 'express';
+import { ApiOperationWithErrorResponse } from '../../decorator/swagger.decorator';
 import { AccountService } from '../account/account.service';
 import { AuthService } from '../auth/auth.service';
-import { ApiOperationWithErrorResponse } from '../../decorator/swagger.decorator';
-import { AuthorizeGithubResDto } from '@repo/lib-api-schema';
 
 @ApiTags('OAuth')
 @Controller('oauth')

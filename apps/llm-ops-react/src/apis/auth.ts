@@ -1,9 +1,10 @@
 import { ApiError, baseUrl } from '@/lib/http';
+import useCredentialStore from '@/stores/credential';
 import {
+  AuthorizeGithubRes,
   BaseResponse,
   CredentialReq,
   CredentialRes,
-  AuthorizeGithubRes,
 } from '@repo/lib-api-schema';
 
 export const credentialLogin = async (req: CredentialReq) => {
@@ -44,8 +45,6 @@ export const oauthGithub = async (code: string) => {
       throw new ApiError(result.message);
     }
 
-    console.log('result', result);
-
     return result.data;
   } catch (e) {
     if (e instanceof ApiError) {
@@ -54,4 +53,15 @@ export const oauthGithub = async (code: string) => {
 
     throw new ApiError('授权失败');
   }
+};
+
+export const logout = async () => {
+  const { accessToken } = useCredentialStore.getState();
+
+  return fetch(`${baseUrl}/auth/logout`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
 };

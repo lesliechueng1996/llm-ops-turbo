@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Headers,
   Post,
   Req,
@@ -58,7 +59,7 @@ export class AuthController {
     description: 'Logout',
   })
   @UseGuards(JwtAuthGuard)
-  @Post('logout')
+  @Get('logout')
   async logout(@Req() req: Request) {
     const account = req.user as {
       accountId: string;

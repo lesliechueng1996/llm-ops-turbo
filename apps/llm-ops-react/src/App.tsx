@@ -1,10 +1,10 @@
 import { Toaster } from '@/components/ui/sonner.tsx';
-import LoginPage from '@/pages/auth/LoginPage';
-import AuthorizePage from '@/pages/auth/AuthorizePage';
-import { BrowserRouter, Route, Routes } from 'react-router';
-import NotFoundPage from '@/pages/not-found/NotFoundPage';
 import AuthorizedLayout from '@/layouts/AuthorizedLayout';
+import AuthorizePage from '@/pages/auth/AuthorizePage';
+import LoginPage from '@/pages/auth/LoginPage';
 import HomePage from '@/pages/home/HomePage';
+import NotFoundPage from '@/pages/not-found/NotFoundPage';
+import { BrowserRouter, Route, Routes } from 'react-router';
 
 function App() {
   return (

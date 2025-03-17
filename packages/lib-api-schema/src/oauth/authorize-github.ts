@@ -1,5 +1,5 @@
-import { z } from 'zod';
 import { createZodDto } from 'nestjs-zod';
+import { z } from 'zod';
 
 export const AuthorizeGithubReqSchema = z.object({
   code: z.string({ message: '授权码不能为空' }).describe('GitHub 授权码'),
