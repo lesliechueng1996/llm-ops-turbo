@@ -1,5 +1,5 @@
-import { Global, Module } from '@nestjs/common';
 import { AsyncLocalStorage } from 'node:async_hooks';
+import { Global, Module } from '@nestjs/common';
 
 @Global()
 @Module({

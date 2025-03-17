@@ -3,8 +3,8 @@ import AuthorizePage from '@/pages/auth/AuthorizePage';
 import LoginPage from '@/pages/auth/LoginPage';
 import HomePage from '@/pages/home/HomePage';
 import NotFoundPage from '@/pages/not-found/NotFoundPage';
-import { BrowserRouter, Route, Routes } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { BrowserRouter, Route, Routes } from 'react-router';
 import SidebarLayout from './layouts/SidebarLayout';
 
 const queryClient = new QueryClient();

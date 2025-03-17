@@ -1,10 +1,10 @@
+import { AsyncLocalStorage } from 'node:async_hooks';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { JwtPayload } from './jwt-payload.type';
-import { AsyncLocalStorage } from 'node:async_hooks';
 import { AlsContext } from '../../common/als/als.type';
+import { JwtPayload } from './jwt-payload.type';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

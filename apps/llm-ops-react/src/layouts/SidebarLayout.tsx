@@ -1,6 +1,6 @@
+import useAuthGuard from '@/hooks/useAuthGuard';
 import { Outlet } from 'react-router';
 import SideBar from './components/side-bar/SideBar';
-import useAuthGuard from '@/hooks/useAuthGuard';
 
 const SidebarLayout = () => {
   useAuthGuard();

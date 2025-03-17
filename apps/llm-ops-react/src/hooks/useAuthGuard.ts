@@ -1,9 +1,9 @@
-import useCredentialStore from '@/stores/credential';
 import { getCurrentAccount } from '@/apis/account';
+import useAccountStore from '@/stores/account';
+import useCredentialStore from '@/stores/credential';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
-import useAccountStore from '@/stores/account';
 
 const useAuthGuard = () => {
   const { isAuthenticated } = useCredentialStore();

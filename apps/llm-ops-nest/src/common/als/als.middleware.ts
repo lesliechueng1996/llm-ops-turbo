@@ -1,6 +1,6 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { Request, Response, NextFunction } from 'express';
+import { Injectable, NestMiddleware } from '@nestjs/common';
+import { NextFunction, Request, Response } from 'express';
 import { AlsContext } from './als.type';
 
 @Injectable()
