@@ -1,11 +1,11 @@
 import { ConsoleLogger } from '@nestjs/common';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { patchNestJsSwagger } from 'nestjs-zod';
 import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './filter/global-exception.filter';
 import { LoggingInterceptor } from './interceptor/logging.interceptor';
 import { ResponseInterceptor } from './interceptor/response.interceptor';
+import { ZodValidationPipe } from '@repo/lib-api-schema';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -16,7 +16,6 @@ async function bootstrap() {
   });
 
   // Swagger
-  patchNestJsSwagger();
   const swaggerConfig = new DocumentBuilder()
     .setTitle('LLM Ops API')
     .setDescription('The LLM Ops API description')
@@ -35,6 +34,8 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(new LoggingInterceptor());
   app.useGlobalInterceptors(new ResponseInterceptor());
+
+  app.useGlobalPipes(new ZodValidationPipe());
 
   app.enableCors();
 

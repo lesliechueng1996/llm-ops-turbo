@@ -13,10 +13,14 @@
 }
 
 @utility required-label {
+  position: relative;
+  width: fit-content;
+
   &::after {
     content: '*';
     color: var(--destructive);
-    padding-left: 0.25rem;
+    position: absolute;
+    right: -0.75rem;
   }
 }
 

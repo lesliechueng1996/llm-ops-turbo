@@ -25,7 +25,7 @@ const IconInput = ({
   const iconSizeRem = iconSize / 16;
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       {LeftIcon && (
         <button
           type="button"

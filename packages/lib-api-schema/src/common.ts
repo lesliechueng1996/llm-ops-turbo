@@ -19,3 +19,7 @@ export const errorResponseSchema = wrapResponseSchema(z.null());
 export class ErrorResponseDto extends createZodDto(
   extendApi(errorResponseSchema),
 ) {}
+
+export class SuccessEmptyResponseDto extends createZodDto(
+  extendApi(successEmptyResponseSchema),
+) {}

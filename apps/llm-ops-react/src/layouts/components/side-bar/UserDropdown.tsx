@@ -11,7 +11,7 @@ import useAccountStore from '@/stores/account';
 import useCredentialStore from '@/stores/credential';
 import { useNavigate } from 'react-router';
 import { useBoolean } from 'usehooks-ts';
-import SettingsModal from './SettingsModal';
+import SettingsModal from '../settings/SettingsModal';
 
 type Props = {
   className?: string;
@@ -25,7 +25,6 @@ const UserDropdown = ({ className }: Props) => {
     value: open,
     setValue: setOpen,
     setTrue: openModal,
-    // setFalse: closeModal,
   } = useBoolean(false);
 
   const signOut = () => {

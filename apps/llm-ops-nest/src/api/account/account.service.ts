@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Account } from '@repo/lib-prisma';
 import { PrismaService } from '../../common/prisma/prisma.service';
 
 @Injectable()
@@ -39,6 +40,17 @@ export class AccountService {
     return this.prisma.account.findUnique({
       where: {
         id,
+      },
+    });
+  }
+
+  async updateAccountField(id: string, field: keyof Account, value: string) {
+    return this.prisma.account.update({
+      where: {
+        id,
+      },
+      data: {
+        [field]: value,
       },
     });
   }

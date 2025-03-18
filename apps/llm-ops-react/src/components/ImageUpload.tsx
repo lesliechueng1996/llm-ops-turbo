@@ -29,6 +29,7 @@ export type ImageUploadRef = {
 };
 
 type Props = {
+  id?: string;
   alt: string;
   imageUrl?: string;
   allowedExtensions?: string[];
@@ -36,9 +37,11 @@ type Props = {
   label?: string;
   ref?: RefObject<ImageUploadRef | null>;
   required?: boolean;
+  onAutoUpload?: (url: string | null) => Promise<void>;
 };
 
 const ImageUpload = ({
+  id,
   alt,
   imageUrl,
   className,
@@ -46,6 +49,7 @@ const ImageUpload = ({
   label = '上传图片',
   ref,
   required = false,
+  onAutoUpload,
 }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(imageUrl || null);
@@ -57,7 +61,7 @@ const ImageUpload = ({
     };
   });
 
-  const handleImageChange: ChangeEventHandler<HTMLInputElement> = () => {
+  const handleImageChange: ChangeEventHandler<HTMLInputElement> = async () => {
     const file = inputRef.current?.files?.[0];
     if (!file) {
       return;
@@ -68,6 +72,11 @@ const ImageUpload = ({
     }
 
     setPreviewUrl(URL.createObjectURL(file));
+
+    if (onAutoUpload) {
+      const url = await uploadImage();
+      onAutoUpload(url);
+    }
   };
 
   const handleClear = () => {
@@ -174,7 +183,7 @@ const ImageUpload = ({
                 <DialogTrigger>
                   <Eye size={16} />
                 </DialogTrigger>
-                <DialogContent className="w-fit bg-transparent border-none">
+                <DialogContent className="w-fit border-none">
                   <VisuallyHidden asChild>
                     <DialogHeader>
                       <DialogTitle>预览图片</DialogTitle>
@@ -209,6 +218,7 @@ const ImageUpload = ({
       )}
 
       <input
+        id={id}
         ref={inputRef}
         hidden
         type="file"

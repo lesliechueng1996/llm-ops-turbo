@@ -7,7 +7,6 @@ import {
   Logger,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
-import { ZodValidationException } from 'nestjs-zod';
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
@@ -29,12 +28,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
     let message = '系统异常';
 
-    if (exception instanceof ZodValidationException) {
-      message = exception
-        .getZodError()
-        .errors.map((error) => error.message)
-        .join(',');
-    } else if (exception instanceof HttpException) {
+    if (exception instanceof HttpException) {
       const response = exception.getResponse();
       if (typeof response === 'string') {
         message = response;
@@ -43,6 +37,8 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         typeof response.message === 'string'
       ) {
         message = response.message;
+      } else if ('message' in response && Array.isArray(response.message)) {
+        message = response.message.join(',');
       } else {
         message = JSON.stringify(response);
       }

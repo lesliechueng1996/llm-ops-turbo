@@ -57,7 +57,7 @@ const SettingsModal = ({ open, onOpenChange }: Props) => {
             </button>
           </div>
           <Separator orientation="vertical" className="h-full" />
-          <div className="w-3/4 pl-6 py-3">
+          <div className="w-3/4 pl-6 py-3 -translate-y-0.5">
             {activeTab === 'account' ? (
               <AccountSettings />
             ) : (

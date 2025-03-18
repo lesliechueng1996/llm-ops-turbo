@@ -243,3 +243,7 @@ export const put = <T>(url: string, options: FetchOptions = {}) => {
 export const del = <T>(url: string, options: FetchOptions = {}) => {
   return request<T>(url, { ...options, method: 'DELETE' });
 };
+
+export const patch = <T>(url: string, options: FetchOptions = {}) => {
+  return request<T>(url, { ...options, method: 'PATCH' });
+};

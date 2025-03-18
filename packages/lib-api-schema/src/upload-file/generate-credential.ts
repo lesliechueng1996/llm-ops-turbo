@@ -5,7 +5,11 @@ import { z } from 'zod';
 export const GenerateCredentialReqSchema = z.object({
   fileName: z.string({ message: '文件名不可为空' }).describe('上传文件名'),
   fileSize: z
-    .number({ message: '上传的文件大小' })
+    .union([
+      z.string().transform((val) => Number.parseInt(val, 10)),
+      z.number(),
+    ])
+    .pipe(z.number().positive({ message: '文件大小必须为正数' }))
     .describe('上传文件大小(Bytes)'),
 });
 
