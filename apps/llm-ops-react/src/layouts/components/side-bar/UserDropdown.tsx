@@ -25,7 +25,7 @@ const UserDropdown = ({ className }: Props) => {
     value: open,
     setValue: setOpen,
     setTrue: openModal,
-    setFalse: closeModal,
+    // setFalse: closeModal,
   } = useBoolean(false);
 
   const signOut = () => {

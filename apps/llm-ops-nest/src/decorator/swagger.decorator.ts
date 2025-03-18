@@ -7,7 +7,6 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiOperationOptions,
-  ApiQuery,
   ApiResponse,
 } from '@nestjs/swagger';
 import { ErrorResponseDto } from '@repo/lib-api-schema';

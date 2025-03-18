@@ -24,6 +24,7 @@
     "@tanstack/react-query": "^5.68.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cos-js-sdk-v5": "^1.8.7",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.5.2",
     "jwt-decode": "^4.0.0",

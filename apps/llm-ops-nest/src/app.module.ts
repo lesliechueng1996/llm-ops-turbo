@@ -7,6 +7,7 @@ import { ZodValidationPipe } from 'nestjs-zod';
 import { AccountModule } from './api/account/account.module';
 import { AuthModule } from './api/auth/auth.module';
 import { OauthModule } from './api/oauth/oauth.module';
+import { UploadFileModule } from './api/upload-file/upload-file.module';
 import { AlsMiddleware } from './common/als/als.middleware';
 import { AlsModule } from './common/als/als.module';
 import { PrismaModule } from './common/prisma/prisma.module';
@@ -29,6 +30,7 @@ import { PrismaModule } from './common/prisma/prisma.module';
     AuthModule,
     AccountModule,
     OauthModule,
+    UploadFileModule,
   ],
   providers: [
     {
