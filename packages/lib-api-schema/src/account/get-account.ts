@@ -1,4 +1,5 @@
-import { createZodDto } from 'nestjs-zod';
+import { createZodDto } from '@anatine/zod-nestjs';
+import { extendApi } from '@anatine/zod-openapi';
 import { z } from 'zod';
 
 export const GetAccountResSchema = z.object({
@@ -13,4 +14,6 @@ export const GetAccountResSchema = z.object({
 
 export type GetAccountRes = z.infer<typeof GetAccountResSchema>;
 
-export class GetAccountResDto extends createZodDto(GetAccountResSchema) {}
+export class GetAccountResDto extends createZodDto(
+  extendApi(GetAccountResSchema),
+) {}

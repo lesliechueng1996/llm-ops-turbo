@@ -1,4 +1,5 @@
-import { createZodDto } from 'nestjs-zod';
+import { createZodDto } from '@anatine/zod-nestjs';
+import { extendApi } from '@anatine/zod-openapi';
 import { z } from 'zod';
 
 export const CredentialReqSchema = z.object({
@@ -18,7 +19,9 @@ export const CredentialReqSchema = z.object({
 
 export type CredentialReq = z.infer<typeof CredentialReqSchema>;
 
-export class CredentialReqDto extends createZodDto(CredentialReqSchema) {}
+export class CredentialReqDto extends createZodDto(
+  extendApi(CredentialReqSchema),
+) {}
 
 export const CredentialResSchema = z.object({
   accessToken: z.string().describe('访问令牌'),
@@ -27,4 +30,6 @@ export const CredentialResSchema = z.object({
 
 export type CredentialRes = z.infer<typeof CredentialResSchema>;
 
-export class CredentialResDto extends createZodDto(CredentialResSchema) {}
+export class CredentialResDto extends createZodDto(
+  extendApi(CredentialResSchema),
+) {}

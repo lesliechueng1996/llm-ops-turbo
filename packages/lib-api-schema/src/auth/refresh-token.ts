@@ -1,4 +1,5 @@
-import { createZodDto } from 'nestjs-zod';
+import { createZodDto } from '@anatine/zod-nestjs';
+import { extendApi } from '@anatine/zod-openapi';
 import { z } from 'zod';
 
 export const RefreshTokenReqSchema = z.object({
@@ -11,7 +12,9 @@ export const RefreshTokenReqSchema = z.object({
 
 export type RefreshTokenReq = z.infer<typeof RefreshTokenReqSchema>;
 
-export class RefreshTokenReqDto extends createZodDto(RefreshTokenReqSchema) {}
+export class RefreshTokenReqDto extends createZodDto(
+  extendApi(RefreshTokenReqSchema),
+) {}
 
 export const RefreshTokenResSchema = z.object({
   accessToken: z.string().describe('访问令牌'),
@@ -20,4 +23,6 @@ export const RefreshTokenResSchema = z.object({
 
 export type RefreshTokenRes = z.infer<typeof RefreshTokenResSchema>;
 
-export class RefreshTokenResDto extends createZodDto(RefreshTokenResSchema) {}
+export class RefreshTokenResDto extends createZodDto(
+  extendApi(RefreshTokenResSchema),
+) {}

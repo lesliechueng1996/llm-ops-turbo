@@ -1,4 +1,5 @@
-import { createZodDto } from 'nestjs-zod';
+import { createZodDto } from '@anatine/zod-nestjs';
+import { extendApi } from '@anatine/zod-openapi';
 import { z } from 'zod';
 
 export const wrapResponseSchema = <T>(data: z.ZodType<T>) => {
@@ -15,4 +16,6 @@ export type BaseResponse<T> = z.infer<ReturnType<typeof wrapResponseSchema<T>>>;
 
 export const errorResponseSchema = wrapResponseSchema(z.null());
 
-export class ErrorResponseDto extends createZodDto(errorResponseSchema) {}
+export class ErrorResponseDto extends createZodDto(
+  extendApi(errorResponseSchema),
+) {}

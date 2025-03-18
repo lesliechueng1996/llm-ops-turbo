@@ -1,4 +1,5 @@
-import { createZodDto } from 'nestjs-zod';
+import { createZodDto } from '@anatine/zod-nestjs';
+import { extendApi } from '@anatine/zod-openapi';
 import { z } from 'zod';
 
 export const AuthorizeGithubReqSchema = z.object({
@@ -8,7 +9,7 @@ export const AuthorizeGithubReqSchema = z.object({
 export type AuthorizeGithubReq = z.infer<typeof AuthorizeGithubReqSchema>;
 
 export class AuthorizeGithubReqDto extends createZodDto(
-  AuthorizeGithubReqSchema,
+  extendApi(AuthorizeGithubReqSchema),
 ) {}
 
 export const AuthorizeGithubResSchema = z.object({
@@ -19,5 +20,5 @@ export const AuthorizeGithubResSchema = z.object({
 export type AuthorizeGithubRes = z.infer<typeof AuthorizeGithubResSchema>;
 
 export class AuthorizeGithubResDto extends createZodDto(
-  AuthorizeGithubResSchema,
+  extendApi(AuthorizeGithubResSchema),
 ) {}
