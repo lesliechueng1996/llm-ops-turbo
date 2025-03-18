@@ -40,7 +40,7 @@ const refreshToken = async (): Promise<string> => {
     }
 
     try {
-      const decoded = jwtDecode(refreshToken);
+      const decoded = jwtDecode(accessToken);
       if (!decoded.sub) {
         useCredentialStore.getState().clear();
         reject(new AuthError('请重新登录'));
@@ -153,7 +153,6 @@ const request = async <T>(
 
   // 每次请求时获取最新的状态
   const { accessToken } = useCredentialStore.getState();
-  console.log(accessToken);
   if (!accessToken) {
     throw new AuthError('请重新登录');
   }
