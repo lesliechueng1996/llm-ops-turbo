@@ -28,6 +28,11 @@ model Account {
   accountOAuths    AccountOAuth[]
   apiToolProviders ApiToolProvider[]
   apiTools         ApiTool[]
+  datasets         Dataset[]
+  documents        Document[]
+  uploadFiles      UploadFile[]
+  processRules     ProcessRule[]
+  segments         Segment[]
 
   @@map("account")
 }
@@ -105,4 +110,119 @@ model ApiTool {
   @@unique([providerId, name], name: "uk_api_tool_provider_id_name")
   @@index([accountId], name: "idx_api_tool_account_id")
   @@map("api_tool")
+}
+
+model Dataset {
+  id           String        @id @default(cuid()) @db.VarChar(36)
+  accountId    String        @map("account_id") @db.VarChar(36)
+  account      Account       @relation(fields: [accountId], references: [id])
+  name         String        @default("") @db.VarChar(255)
+  icon         String        @default("") @db.VarChar(255)
+  description  String        @default("") @db.Text
+  createdAt    DateTime      @default(now()) @map("created_at") @db.Timestamp(3)
+  updatedAt    DateTime      @default(now()) @updatedAt @map("updated_at") @db.Timestamp(3)
+  documents    Document[]
+  processRules ProcessRule[]
+  segments     Segment[]
+
+  @@index([accountId], name: "idx_dataset_account_id")
+  @@map("dataset")
+}
+
+model UploadFile {
+  id        String     @id @default(cuid()) @db.VarChar(36)
+  accountId String     @map("account_id") @db.VarChar(36)
+  account   Account    @relation(fields: [accountId], references: [id])
+  name      String     @default("") @db.VarChar(255)
+  key       String     @default("") @db.VarChar(255)
+  size      Int        @default(0)
+  extension String     @default("") @db.VarChar(255)
+  mimeType  String     @default("") @map("mime_type") @db.VarChar(255)
+  hash      String     @default("") @db.VarChar(255)
+  createdAt DateTime   @default(now()) @map("created_at") @db.Timestamp(3)
+  updatedAt DateTime   @default(now()) @updatedAt @map("updated_at") @db.Timestamp(3)
+  documents Document[]
+
+  @@index([accountId], name: "idx_upload_file_account_id")
+  @@map("upload_file")
+}
+
+model ProcessRule {
+  id        String     @id @default(cuid()) @db.VarChar(36)
+  accountId String     @map("account_id") @db.VarChar(36)
+  account   Account    @relation(fields: [accountId], references: [id])
+  datasetId String     @map("dataset_id") @db.VarChar(36)
+  dataset   Dataset    @relation(fields: [datasetId], references: [id])
+  mode      String     @default("") @db.VarChar(255)
+  rule      Json       @default("{}") @db.JsonB
+  createdAt DateTime   @default(now()) @map("created_at") @db.Timestamp(3)
+  updatedAt DateTime   @default(now()) @updatedAt @map("updated_at") @db.Timestamp(3)
+  documents Document[]
+
+  @@index([accountId, datasetId], name: "idx_process_rule_account_id_dataset_id")
+  @@map("process_rule")
+}
+
+model Document {
+  id                   String      @id @default(cuid()) @db.VarChar(36)
+  accountId            String      @map("account_id") @db.VarChar(36)
+  account              Account     @relation(fields: [accountId], references: [id])
+  datasetId            String      @map("dataset_id") @db.VarChar(36)
+  dataset              Dataset     @relation(fields: [datasetId], references: [id])
+  uploadFileId         String      @map("upload_file_id") @db.VarChar(36)
+  uploadFile           UploadFile  @relation(fields: [uploadFileId], references: [id])
+  processRuleId        String      @map("process_rule_id") @db.VarChar(36)
+  processRule          ProcessRule @relation(fields: [processRuleId], references: [id])
+  batch                String      @default("") @db.VarChar(255)
+  name                 String      @default("") @db.VarChar(255)
+  position             Int         @default(1)
+  characterCount       Int         @default(0) @map("character_count")
+  tokenCount           Int         @default(0) @map("token_count")
+  processingStartedAt  DateTime?   @map("processing_started_at") @db.Timestamp(3)
+  parsingCompletedAt   DateTime?   @map("parsing_completed_at") @db.Timestamp(3)
+  splittingCompletedAt DateTime?   @map("splitting_completed_at") @db.Timestamp(3)
+  indexingCompletedAt  DateTime?   @map("indexing_completed_at") @db.Timestamp(3)
+  completedAt          DateTime?   @map("completed_at") @db.Timestamp(3)
+  stoppedAt            DateTime?   @map("stopped_at") @db.Timestamp(3)
+  error                String?     @db.Text
+  enabled              Boolean     @default(false)
+  disabledAt           DateTime?   @map("disabled_at") @db.Timestamp(3)
+  status               String      @default("") @db.VarChar(255)
+  createdAt            DateTime    @default(now()) @map("created_at") @db.Timestamp(3)
+  updatedAt            DateTime    @default(now()) @updatedAt @map("updated_at") @db.Timestamp(3)
+  segments             Segment[]
+
+  @@index([accountId, datasetId], name: "idx_document_account_id_dataset_id")
+  @@map("document")
+}
+
+model Segment {
+  id                  String    @id @default(cuid()) @db.VarChar(36)
+  accountId           String    @map("account_id") @db.VarChar(36)
+  account             Account   @relation(fields: [accountId], references: [id])
+  datasetId           String    @map("dataset_id") @db.VarChar(36)
+  dataset             Dataset   @relation(fields: [datasetId], references: [id])
+  documentId          String    @map("document_id") @db.VarChar(36)
+  document            Document  @relation(fields: [documentId], references: [id])
+  nodeId              String?   @map("node_id") @db.VarChar(255)
+  position            Int       @default(1)
+  content             String    @default("") @db.Text
+  characterCount      Int       @default(0) @map("character_count")
+  tokenCount          Int       @default(0) @map("token_count")
+  keywords            Json      @default("[]") @db.JsonB
+  hash                String    @default("") @db.VarChar(255)
+  hitCount            Int       @default(0) @map("hit_count")
+  enabled             Boolean   @default(false)
+  disabledAt          DateTime? @map("disabled_at") @db.Timestamp(3)
+  processingStartedAt DateTime? @map("processing_started_at") @db.Timestamp(3)
+  indexingCompletedAt DateTime? @map("indexing_completed_at") @db.Timestamp(3)
+  completedAt         DateTime? @map("completed_at") @db.Timestamp(3)
+  stoppedAt           DateTime? @map("stopped_at") @db.Timestamp(3)
+  error               String?   @db.Text
+  status              String    @default("waiting") @db.VarChar(255)
+  createdAt           DateTime  @default(now()) @map("created_at") @db.Timestamp(3)
+  updatedAt           DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamp(3)
+
+  @@index([accountId, datasetId, documentId], name: "idx_segment_account_id_dataset_id_document_id")
+  @@map("segment")
 }
