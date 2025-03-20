@@ -28,8 +28,8 @@ const UserDropdown = ({ className }: Props) => {
   } = useBoolean(false);
 
   const signOut = () => {
-    clear();
     logout();
+    clear();
     navigate('/auth/login');
   };
 
