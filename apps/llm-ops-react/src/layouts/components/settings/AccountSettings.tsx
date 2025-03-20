@@ -104,7 +104,7 @@ const AccountSetting = () => {
             alt="账号头像"
             imageUrl={avatar}
             required
-            className=" rounded-full"
+            className="rounded-full"
             onAutoUpload={handleAvatarUpload}
           />
         </LabelWrap>
