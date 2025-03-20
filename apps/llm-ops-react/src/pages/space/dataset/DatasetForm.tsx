@@ -29,7 +29,7 @@ const formSchema = z.object({
 type BasicForm = z.infer<typeof formSchema>;
 
 type DatasetForm = BasicForm & {
-  avatar: string;
+  icon: string;
 };
 
 type Props = {
@@ -47,8 +47,8 @@ const DatasetForm = ({ defaultValues, onSubmit }: Props) => {
   });
 
   const handleSubmit = async (data: BasicForm) => {
-    // const avatar = await uploadRef.current?.uploadImage();
-    onSubmit({ ...data, avatar: '' });
+    // const icon = await uploadRef.current?.uploadImage();
+    onSubmit({ ...data, icon: '' });
   };
 
   const handleCancel = () => {
@@ -58,12 +58,12 @@ const DatasetForm = ({ defaultValues, onSubmit }: Props) => {
 
   return (
     <div className="space-y-8">
-      <LabelWrap label="知识库图标" htmlFor="avatar" required>
+      <LabelWrap label="知识库图标" htmlFor="icon" required>
         <ImageUpload
-          id="avatar"
+          id="icon"
           ref={uploadRef}
           alt="知识库图标"
-          imageUrl={defaultValues.avatar}
+          imageUrl={defaultValues.icon}
           required
         />
       </LabelWrap>

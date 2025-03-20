@@ -10,6 +10,7 @@ import { UploadFileModule } from './api/upload-file/upload-file.module';
 import { AlsMiddleware } from './common/als/als.middleware';
 import { AlsModule } from './common/als/als.module';
 import { PrismaModule } from './common/prisma/prisma.module';
+import { DatasetModule } from './api/dataset/dataset.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { PrismaModule } from './common/prisma/prisma.module';
     AccountModule,
     OauthModule,
     UploadFileModule,
+    DatasetModule,
   ],
 })
 export class AppModule implements NestModule {

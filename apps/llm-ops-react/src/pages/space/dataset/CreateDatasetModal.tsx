@@ -16,7 +16,7 @@ const CreateDatasetModal = () => {
         defaultValues={{
           name: '',
           description: '',
-          avatar: '',
+          icon: '',
         }}
         onSubmit={(data) => {
           console.log(data);

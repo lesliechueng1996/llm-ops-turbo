@@ -1,6 +1,7 @@
 import { createZodDto } from '@anatine/zod-nestjs';
 import { extendApi } from '@anatine/zod-openapi';
 import { z } from 'zod';
+import { wrapResponseSchema } from '../common';
 
 export const GetAccountResSchema = z.object({
   id: z.string().describe('账号ID'),
@@ -15,5 +16,5 @@ export const GetAccountResSchema = z.object({
 export type GetAccountRes = z.infer<typeof GetAccountResSchema>;
 
 export class GetAccountResDto extends createZodDto(
-  extendApi(GetAccountResSchema),
+  extendApi(wrapResponseSchema(GetAccountResSchema)),
 ) {}

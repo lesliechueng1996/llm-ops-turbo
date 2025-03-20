@@ -125,6 +125,7 @@ model Dataset {
   processRules ProcessRule[]
   segments     Segment[]
 
+  @@unique([accountId, name], name: "uk_dataset_account_id_name")
   @@index([accountId], name: "idx_dataset_account_id")
   @@map("dataset")
 }
