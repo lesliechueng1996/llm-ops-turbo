@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { createZodDto } from '@anatine/zod-nestjs';
 import { extendApi } from '@anatine/zod-openapi';
+import { wrapResponseSchema } from '../common';
 
 export const GetDatasetResSchema = z.object({
   id: z.string().describe('知识库ID'),
@@ -18,5 +19,5 @@ export const GetDatasetResSchema = z.object({
 export type GetDatasetRes = z.infer<typeof GetDatasetResSchema>;
 
 export class GetDatasetResDto extends createZodDto(
-  extendApi(GetDatasetResSchema),
+  extendApi(wrapResponseSchema(GetDatasetResSchema)),
 ) {}

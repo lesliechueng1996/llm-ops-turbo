@@ -1,6 +1,7 @@
 import { createZodDto } from '@anatine/zod-nestjs';
 import { extendApi } from '@anatine/zod-openapi';
 import { z } from 'zod';
+import { wrapResponseSchema } from '../common';
 
 export const AuthorizeGithubReqSchema = z.object({
   code: z.string({ message: '授权码不能为空' }).describe('GitHub 授权码'),
@@ -20,5 +21,5 @@ export const AuthorizeGithubResSchema = z.object({
 export type AuthorizeGithubRes = z.infer<typeof AuthorizeGithubResSchema>;
 
 export class AuthorizeGithubResDto extends createZodDto(
-  extendApi(AuthorizeGithubResSchema),
+  extendApi(wrapResponseSchema(AuthorizeGithubResSchema)),
 ) {}

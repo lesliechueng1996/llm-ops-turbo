@@ -1,6 +1,7 @@
 import { createZodDto } from '@anatine/zod-nestjs';
 import { extendApi } from '@anatine/zod-openapi';
 import { z } from 'zod';
+import { wrapResponseSchema } from '../common';
 
 export const CredentialReqSchema = z.object({
   email: z
@@ -31,5 +32,5 @@ export const CredentialResSchema = z.object({
 export type CredentialRes = z.infer<typeof CredentialResSchema>;
 
 export class CredentialResDto extends createZodDto(
-  extendApi(CredentialResSchema),
+  extendApi(wrapResponseSchema(CredentialResSchema)),
 ) {}

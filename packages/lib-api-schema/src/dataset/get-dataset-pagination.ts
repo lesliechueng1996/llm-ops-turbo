@@ -3,6 +3,7 @@ import { createZodDto } from '@anatine/zod-nestjs';
 import { extendApi } from '@anatine/zod-openapi';
 import {
   paginationReqSchema,
+  wrapResponseSchema,
   wrapSuccessPaginationDataSchema,
 } from '../common';
 
@@ -39,5 +40,5 @@ export type GetDatasetPaginationRes = z.infer<
 >;
 
 export class GetDatasetPaginationResDto extends createZodDto(
-  getDatasetPaginationResSchema,
+  extendApi(wrapResponseSchema(getDatasetPaginationResSchema)),
 ) {}

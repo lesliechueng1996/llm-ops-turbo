@@ -1,6 +1,7 @@
 import { createZodDto } from '@anatine/zod-nestjs';
 import { extendApi } from '@anatine/zod-openapi';
 import { z } from 'zod';
+import { wrapResponseSchema } from '../common';
 
 export const GenerateCredentialReqSchema = z.object({
   fileName: z.string({ message: '文件名不可为空' }).describe('上传文件名'),
@@ -38,5 +39,5 @@ export const GenerateCredentialResSchema = z.object({
 export type GenerateCredentialRes = z.infer<typeof GenerateCredentialResSchema>;
 
 export class GenerateCredentialResDto extends createZodDto(
-  extendApi(GenerateCredentialResSchema),
+  extendApi(wrapResponseSchema(GenerateCredentialResSchema)),
 ) {}

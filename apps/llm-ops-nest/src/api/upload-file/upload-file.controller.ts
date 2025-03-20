@@ -11,6 +11,7 @@ import {
   ALLOWED_IMAGE_EXTENSIONS,
   ALLOWED_IMAGE_SIZE,
   GenerateCredentialReqDto,
+  GenerateCredentialRes,
   GenerateCredentialResDto,
 } from '@repo/lib-api-schema';
 import { ApiOperationWithErrorResponse } from '../../decorator/swagger.decorator';
@@ -34,7 +35,7 @@ export class UploadFileController {
   @Get('credential')
   async getUploadFileTempCredential(
     @Query() query: GenerateCredentialReqDto,
-  ): Promise<GenerateCredentialResDto> {
+  ): Promise<GenerateCredentialRes> {
     const { fileName, fileSize } = query;
     const ext = fileName.split('.').pop()?.toLowerCase();
     if (!ext) {

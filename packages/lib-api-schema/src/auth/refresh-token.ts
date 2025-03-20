@@ -1,6 +1,7 @@
 import { createZodDto } from '@anatine/zod-nestjs';
 import { extendApi } from '@anatine/zod-openapi';
 import { z } from 'zod';
+import { wrapResponseSchema } from '../common';
 
 export const RefreshTokenReqSchema = z.object({
   refreshToken: z
@@ -24,5 +25,5 @@ export const RefreshTokenResSchema = z.object({
 export type RefreshTokenRes = z.infer<typeof RefreshTokenResSchema>;
 
 export class RefreshTokenResDto extends createZodDto(
-  extendApi(RefreshTokenResSchema),
+  extendApi(wrapResponseSchema(RefreshTokenResSchema)),
 ) {}
