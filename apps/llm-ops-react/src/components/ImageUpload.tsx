@@ -11,7 +11,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { ALLOWED_IMAGE_EXTENSIONS, ALLOWED_IMAGE_SIZE } from '@/lib/entity';
 import { ApiError } from '@/lib/http';
-import { cn } from '@/lib/utils';
+import { cn, getErrorMessage } from '@/lib/utils';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import COS from 'cos-js-sdk-v5';
 import { Eye, Plus, Trash2 } from 'lucide-react';
@@ -147,13 +147,12 @@ const ImageUpload = ({
 
       return await promise;
     } catch (error) {
-      if (error instanceof ApiError) {
-        toast.error(error.message);
-      } else {
-        toast.error('上传失败');
-      }
+      toast.error(getErrorMessage(error, '上传失败'));
       return null;
     } finally {
+      if (inputRef.current) {
+        inputRef.current.value = '';
+      }
       setIsPending(false);
     }
   };

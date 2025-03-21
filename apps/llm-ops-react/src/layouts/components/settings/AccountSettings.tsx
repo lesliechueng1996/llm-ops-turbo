@@ -11,6 +11,7 @@ import {
 } from '@repo/lib-api-schema';
 import { toast } from 'sonner';
 import { ApiError } from '@/lib/http';
+import { getErrorMessage } from '@/lib/utils';
 
 const AccountSetting = () => {
   const { email, avatar, name, setName, setAvatar } = useAccountStore();
@@ -38,11 +39,7 @@ const AccountSetting = () => {
       toast.success('昵称更新成功');
     } catch (error) {
       setName(oldName);
-      if (error instanceof ApiError) {
-        toast.error(error.message);
-      } else {
-        toast.error('昵称更新失败');
-      }
+      toast.error(getErrorMessage(error, '昵称更新失败'));
     } finally {
       setIsLoading(false);
     }

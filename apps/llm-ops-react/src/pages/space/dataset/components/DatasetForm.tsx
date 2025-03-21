@@ -14,8 +14,9 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import useSpaceCreateModal from '@/stores/space-create-modal';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
 const formSchema = z.object({
@@ -34,21 +35,30 @@ type DatasetForm = BasicForm & {
 
 type Props = {
   defaultValues: DatasetForm;
-  onSubmit: (data: DatasetForm) => void;
+  onSubmit: (data: DatasetForm) => Promise<void>;
 };
 
 const DatasetForm = ({ defaultValues, onSubmit }: Props) => {
   const { closeModal } = useSpaceCreateModal();
   const uploadRef = useRef<ImageUploadRef>(null);
-
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<BasicForm>({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
 
   const handleSubmit = async (data: BasicForm) => {
-    // const icon = await uploadRef.current?.uploadImage();
-    onSubmit({ ...data, icon: '' });
+    setIsLoading(true);
+    try {
+      const icon = await uploadRef.current?.uploadImage();
+      if (!icon) {
+        toast.error('图标上传失败');
+        return;
+      }
+      await onSubmit({ ...data, icon });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleCancel = () => {
@@ -110,7 +120,7 @@ const DatasetForm = ({ defaultValues, onSubmit }: Props) => {
             )}
           />
 
-          <FormFooter onCancel={handleCancel} />
+          <FormFooter onCancel={handleCancel} isLoading={isLoading} />
         </form>
       </Form>
     </div>

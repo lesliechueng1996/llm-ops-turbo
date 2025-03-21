@@ -26,16 +26,30 @@ export class SuccessEmptyResponseDto extends createZodDto(
 
 export const paginationReqSchema = z.object({
   currentPage: z
-    .number()
-    .min(1, { message: '页码不能小于1' })
-    .max(9999, { message: '页码不能大于9999' })
+    .union([
+      z.string().transform((val) => Number.parseInt(val, 10)),
+      z.number(),
+    ])
+    .pipe(
+      z
+        .number()
+        .min(1, { message: '页码不能小于1' })
+        .max(9999, { message: '页码不能大于9999' }),
+    )
     .optional()
     .default(1)
     .describe('当前页码'),
   pageSize: z
-    .number()
-    .min(1, { message: '每页条数不能小于1' })
-    .max(50, { message: '每页条数不能大于50' })
+    .union([
+      z.string().transform((val) => Number.parseInt(val, 10)),
+      z.number(),
+    ])
+    .pipe(
+      z
+        .number()
+        .min(1, { message: '每页条数不能小于1' })
+        .max(50, { message: '每页条数不能大于50' }),
+    )
     .optional()
     .default(10)
     .describe('每页条数'),
