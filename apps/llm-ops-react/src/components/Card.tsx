@@ -1,6 +1,7 @@
 import { CheckCircle } from 'lucide-react';
 import { ReactNode } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Link } from 'react-router';
 
 type Props = {
   iconUrl: string;
@@ -12,6 +13,7 @@ type Props = {
   avatarUrl: string;
   name: string;
   footerText: string;
+  href: string;
 };
 
 const Card = ({
@@ -24,9 +26,13 @@ const Card = ({
   avatarUrl,
   name,
   footerText,
+  href,
 }: Props) => {
   return (
-    <div className="flex flex-col gap-3 w-96 h-52 p-4 rounded-lg border border-stone-300 shadow bg-background">
+    <Link
+      to={href}
+      className="flex flex-col gap-3 w-96 h-52 p-4 rounded-lg border border-stone-300 shadow bg-background"
+    >
       <div className="shrink-0 min-h-0 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <img src={iconUrl} alt={title} className="size-10 rounded-lg" />
@@ -54,7 +60,7 @@ const Card = ({
         <p>·</p>
         <p className="text-xs">{footerText}</p>
       </div>
-    </div>
+    </Link>
   );
 };
 

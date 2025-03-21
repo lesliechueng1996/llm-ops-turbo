@@ -8,6 +8,8 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
 import DatasetPage from './pages/space/dataset/DatasetPage';
 import SidebarLayout from './layouts/SidebarLayout';
 import { NuqsAdapter } from 'nuqs/adapters/react';
+import DocumentPage from './pages/space/dataset/document/DocumentPage';
+import BatchFilePage from './pages/space/dataset/document/batch/BatchFilePage';
 
 const queryClient = new QueryClient();
 
@@ -30,6 +32,11 @@ function App() {
               <Route path="space">
                 <Route path="" element={<Navigate to="/space/dataset" />} />
                 <Route path="dataset" element={<DatasetPage />} />
+                <Route path="dataset/:id/document" element={<DocumentPage />} />
+                <Route
+                  path="dataset/:id/document/batch"
+                  element={<BatchFilePage />}
+                />
               </Route>
             </Route>
             <Route path="*" element={<NotFoundPage />} />

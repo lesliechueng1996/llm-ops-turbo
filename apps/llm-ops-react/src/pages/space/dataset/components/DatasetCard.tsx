@@ -61,6 +61,7 @@ const DatasetCard = ({
   );
   return (
     <Card
+      href={`/space/dataset/${id}/document`}
       iconUrl={icon}
       title={name}
       subTitle={subTitle}
