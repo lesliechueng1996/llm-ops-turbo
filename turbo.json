@@ -29,7 +29,16 @@
       "dependsOn": ["@repo/lib-api-schema#build", "@repo/lib-prisma#build"],
       "outputs": ["dist/**"]
     },
+    "llm-ops-task#build": {
+      "dependsOn": ["@repo/lib-api-schema#build", "@repo/lib-prisma#build"],
+      "outputs": ["dist/**"]
+    },
     "llm-ops-nest#dev": {
+      "dependsOn": ["@repo/lib-api-schema#build", "@repo/lib-prisma#build"],
+      "cache": false,
+      "persistent": true
+    },
+    "llm-ops-task#dev": {
       "dependsOn": ["@repo/lib-api-schema#build", "@repo/lib-prisma#build"],
       "cache": false,
       "persistent": true
