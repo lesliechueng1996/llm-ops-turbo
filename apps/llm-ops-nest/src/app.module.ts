@@ -1,17 +1,17 @@
 import { createKeyv } from '@keyv/redis';
+import { BullModule } from '@nestjs/bullmq';
 import { CacheModule } from '@nestjs/cache-manager';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AccountModule } from './api/account/account.module';
 import { AuthModule } from './api/auth/auth.module';
 import { DatasetModule } from './api/dataset/dataset.module';
+import { HealthModule } from './api/health/health.module';
 import { OauthModule } from './api/oauth/oauth.module';
 import { UploadFileModule } from './api/upload-file/upload-file.module';
 import { AlsMiddleware } from './common/als/als.middleware';
 import { AlsModule } from './common/als/als.module';
 import { PrismaModule } from './common/prisma/prisma.module';
-import { BullModule } from '@nestjs/bullmq';
-import { HealthModule } from './api/health/health.module';
 import { ProducerModule } from './producer/producer.module';
 
 @Module({

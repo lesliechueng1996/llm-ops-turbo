@@ -1,6 +1,6 @@
+import { BullModule } from '@nestjs/bullmq';
 import { Module } from '@nestjs/common';
 import { DemoConsumer } from './demo.consumer';
-import { BullModule } from '@nestjs/bullmq';
 
 @Module({
   imports: [

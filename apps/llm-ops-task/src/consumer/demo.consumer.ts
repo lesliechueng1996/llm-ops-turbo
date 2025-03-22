@@ -1,6 +1,6 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
-import { Job } from 'bullmq';
 import { Logger } from '@nestjs/common';
+import { Job } from 'bullmq';
 
 type DataType = {
   name: string;

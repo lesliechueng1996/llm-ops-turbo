@@ -1,6 +1,6 @@
+import { BullModule } from '@nestjs/bullmq';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { BullModule } from '@nestjs/bullmq';
 import { ConsumerModule } from './consumer/consumer.module';
 
 @Module({

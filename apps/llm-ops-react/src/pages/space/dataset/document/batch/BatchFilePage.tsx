@@ -1,13 +1,13 @@
-import { ChevronLeft } from 'lucide-react';
-import { Link, useParams } from 'react-router';
-import { defineStepper } from '@stepperize/react';
-import { Fragment, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import UploadFile from './components/UploadFile';
-import SplitSettings, { SplitSettingsRule } from './components/SplitSettings';
-import DataProcess from './components/DataProcess';
+import { defineStepper } from '@stepperize/react';
+import { ChevronLeft } from 'lucide-react';
+import { Fragment, useState } from 'react';
+import { Link, useParams } from 'react-router';
 import { toast } from 'sonner';
+import DataProcess from './components/DataProcess';
+import SplitSettings, { SplitSettingsRule } from './components/SplitSettings';
+import UploadFile from './components/UploadFile';
 
 const { useStepper, steps, utils } = defineStepper(
   {
