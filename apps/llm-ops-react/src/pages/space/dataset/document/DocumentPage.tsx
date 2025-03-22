@@ -3,7 +3,7 @@ import DocAction from './components/DocAction';
 
 const DocumentPage = () => {
   return (
-    <div className="h-screen px-3">
+    <div className="h-full px-3">
       <header className="py-4">
         <DatasetInfo />
       </header>

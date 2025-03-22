@@ -9,7 +9,7 @@ const SidebarLayout = () => {
     <div className="h-screen w-screen flex bg-muted">
       <SideBar className="w-60 h-screen shrink-0" />
 
-      <div className="grow p-3">
+      <div className="grow p-3 h-screen">
         <Outlet />
       </div>
     </div>
