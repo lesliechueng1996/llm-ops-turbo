@@ -1,10 +1,10 @@
 import { getDataset } from '@/apis/dataset';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useQuery } from '@tanstack/react-query';
 import { AlertCircle, ChevronLeft } from 'lucide-react';
 import { Link, useParams } from 'react-router';
-import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Skeleton } from '@/components/ui/skeleton';
 
 const DatasetInfo = () => {
   const { id } = useParams();

@@ -4,10 +4,10 @@ import LoginPage from '@/pages/auth/LoginPage';
 import HomePage from '@/pages/home/HomePage';
 import NotFoundPage from '@/pages/not-found/NotFoundPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
-import DatasetPage from './pages/space/dataset/DatasetPage';
-import SidebarLayout from './layouts/SidebarLayout';
 import { NuqsAdapter } from 'nuqs/adapters/react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
+import SidebarLayout from './layouts/SidebarLayout';
+import DatasetPage from './pages/space/dataset/DatasetPage';
 import DocumentPage from './pages/space/dataset/document/DocumentPage';
 import BatchFilePage from './pages/space/dataset/document/batch/BatchFilePage';
 

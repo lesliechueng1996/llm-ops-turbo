@@ -1,5 +1,5 @@
-import LoadingButton from './LoadingButton';
 import { Button } from '@/components/ui/button';
+import LoadingButton from './LoadingButton';
 
 type Props = {
   isLoading: boolean;

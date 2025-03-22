@@ -1,5 +1,5 @@
-import DocAction from './components/DocAction';
 import DatasetInfo from './components/DatasetInfo';
+import DocAction from './components/DocAction';
 
 const DocumentPage = () => {
   return (

@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../common/prisma/prisma.service';
 import {
   GetDatasetPaginationReq,
   GetDatasetPaginationRes,
   GetDatasetRes,
 } from '@repo/lib-api-schema';
-import { calculatePagination } from '../../common/util/pagination.util';
 import { Prisma } from '@repo/lib-prisma';
+import { PrismaService } from '../../common/prisma/prisma.service';
+import { calculatePagination } from '../../common/util/pagination.util';
 
 const DEFAULT_DATASET_DESCRIPTION_FORMATTER =
   '当你需要回答关于《{name}》的时候可以引用该知识库。';

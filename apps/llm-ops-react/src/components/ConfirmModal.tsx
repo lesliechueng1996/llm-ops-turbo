@@ -1,7 +1,7 @@
-import FormModal from './FormModal';
-import { Button } from './ui/button';
-import LoadingButton from './LoadingButton';
 import { useState } from 'react';
+import FormModal from './FormModal';
+import LoadingButton from './LoadingButton';
+import { Button } from './ui/button';
 
 type Props = {
   title: string;

@@ -1,11 +1,11 @@
+import SearchInput from '@/components/SearchInput';
 import { Button } from '@/components/ui/button';
-import { UserFillIcon } from '@/layouts/components/icons';
+import useSearchKeyword from '@/hooks/useSearchKeyword';
 import HeaderLayout from '@/layouts/HeaderLayout';
+import { UserFillIcon } from '@/layouts/components/icons';
+import useSpaceCreateModal from '@/stores/space-create-modal';
 import { ReactNode } from 'react';
 import SpaceMenu from './SpaceMenu';
-import SearchInput from '@/components/SearchInput';
-import useSearchKeyword from '@/hooks/useSearchKeyword';
-import useSpaceCreateModal from '@/stores/space-create-modal';
 
 type Props = {
   label: string;

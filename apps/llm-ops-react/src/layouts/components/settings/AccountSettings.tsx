@@ -1,17 +1,17 @@
+import { updateAvatar, updateName, updatePassword } from '@/apis/account';
 import ImageUpload from '@/components/ImageUpload';
 import LabelWrap from '@/components/LabelWrap';
-import useAccountStore from '@/stores/account';
-import EditableField from './EditableField';
-import { updateAvatar, updateName, updatePassword } from '@/apis/account';
-import { useState } from 'react';
-import {
-  UpdatePasswordReqSchema,
-  UpdateNameReqSchema,
-  UpdateAvatarReqSchema,
-} from '@repo/lib-api-schema';
-import { toast } from 'sonner';
 import { ApiError } from '@/lib/http';
 import { getErrorMessage } from '@/lib/utils';
+import useAccountStore from '@/stores/account';
+import {
+  UpdateAvatarReqSchema,
+  UpdateNameReqSchema,
+  UpdatePasswordReqSchema,
+} from '@repo/lib-api-schema';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import EditableField from './EditableField';
 
 const AccountSetting = () => {
   const { email, avatar, name, setName, setAvatar } = useAccountStore();

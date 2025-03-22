@@ -1,6 +1,6 @@
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { CheckCircle } from 'lucide-react';
 import { ReactNode } from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Link } from 'react-router';
 
 type Props = {
