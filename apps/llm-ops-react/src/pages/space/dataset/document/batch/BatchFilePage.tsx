@@ -8,6 +8,8 @@ import { toast } from 'sonner';
 import DataProcess from './components/DataProcess';
 import SplitSettings, { SplitSettingsRule } from './components/SplitSettings';
 import UploadFile from './components/UploadFile';
+import LoadingButton from '@/components/LoadingButton';
+import { uploadFile } from '@/apis/upload-file';
 
 const { useStepper, steps, utils } = defineStepper(
   {
@@ -34,16 +36,32 @@ const BatchFilePage = () => {
   const currentIndex = utils.getIndex(stepper.current.id);
 
   const [files, setFiles] = useState<File[]>([]);
+  const [fileIds, setFileIds] = useState<string[]>([]);
   const [splitSettingsRule, setSplitSettingsRule] = useState<SplitSettingsRule>(
     {
       processType: 'automatic',
     },
   );
+  const [uploading, setUploading] = useState(false);
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (stepper.current.id === 'upload-file' && files.length === 0) {
       toast.error('请上传文件');
       return;
+    }
+    if (stepper.current.id === 'split-settings') {
+      // upload files
+      setUploading(true);
+      const promises = files.map((file) => uploadFile(file));
+      try {
+        const res = await Promise.all(promises);
+        setFileIds(res.map((item) => item.data.id));
+      } catch (error) {
+        toast.error('上传失败');
+        setFileIds([]);
+      } finally {
+        setUploading(false);
+      }
     }
     stepper.next();
   };
@@ -100,7 +118,7 @@ const BatchFilePage = () => {
               onChange={setSplitSettingsRule}
             />
           ),
-          'data-process': () => <DataProcess />,
+          'data-process': () => <DataProcess fileIds={fileIds} />,
         })}
       </div>
       <div className="shrink-0 min-h-0 flex justify-end items-center gap-4 py-3">
@@ -109,17 +127,21 @@ const BatchFilePage = () => {
             点击确认不影响数据处理，处理完毕后可进行引用
           </span>
         ) : stepper.isFirst ? null : (
-          <Button
+          <LoadingButton
+            type="button"
             variant="outline"
             onClick={stepper.prev}
             disabled={stepper.isFirst}
-          >
-            上一步
-          </Button>
+            isLoading={uploading}
+            text="上一步"
+          />
         )}
-        <Button onClick={handleNext}>
-          {stepper.isLast ? '确认' : '下一步'}
-        </Button>
+        <LoadingButton
+          type="button"
+          isLoading={uploading}
+          onClick={handleNext}
+          text={stepper.isLast ? '确认' : uploading ? '上传中' : '下一步'}
+        />
       </div>
     </div>
   );

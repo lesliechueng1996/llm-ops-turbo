@@ -1,12 +1,34 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import * as COS from 'cos-nodejs-sdk-v5';
 import { format } from 'date-fns';
 import { getCredential } from 'qcloud-cos-sts';
 import { v4 as uuidv4 } from 'uuid';
+import * as os from 'node:os';
+import * as path from 'node:path';
+import * as fs from 'node:fs/promises';
+import { Prisma } from '@repo/lib-prisma';
+import { PrismaService } from '../../common/prisma/prisma.service';
 
 @Injectable()
 export class UploadFileService {
-  constructor(private readonly configService: ConfigService) {}
+  private readonly cos: COS;
+  private readonly logger = new Logger(UploadFileService.name);
+
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly prisma: PrismaService,
+  ) {
+    this.cos = new COS({
+      SecretId: this.configService.get('TENCENT_COS_SECRET_ID', ''),
+      SecretKey: this.configService.get('TENCENT_COS_SECRET_KEY', ''),
+      Protocol: this.configService.get('TENCENT_COS_SCHEMA', 'https'),
+    });
+  }
 
   generateFileKey(ext: string) {
     const date = format(new Date(), 'yyyyMMdd');
@@ -42,5 +64,74 @@ export class UploadFileService {
       startTime: credential.startTime,
       expiredTime: credential.expiredTime,
     };
+  }
+
+  async uploadFile(file: Express.Multer.File) {
+    const ext = file.originalname.split('.').pop() ?? '';
+    const fileKey = this.generateFileKey(ext);
+
+    let tempFilePath = '';
+    try {
+      tempFilePath = path.join(os.tmpdir(), fileKey);
+
+      // 确保目录存在
+      const tempDir = path.dirname(tempFilePath);
+      await fs.mkdir(tempDir, { recursive: true });
+
+      this.logger.debug(`暂存文件到 ${tempFilePath}`);
+      await fs.writeFile(tempFilePath, file.buffer);
+
+      // 对中文文件名进行编码处理
+      const encodedOriginalname = Buffer.from(
+        file.originalname,
+        'latin1',
+      ).toString('utf8');
+
+      const uploadPromise = new Promise<COS.UploadFileResult>(
+        (resolve, reject) => {
+          this.cos.uploadFile(
+            {
+              Bucket: this.configService.get('TENCENT_COS_BUCKET', ''),
+              Region: this.configService.get('TENCENT_COS_REGION', ''),
+              Key: fileKey,
+              FilePath: tempFilePath,
+            },
+            (err, data) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(data);
+              }
+            },
+          );
+        },
+      );
+
+      const result = await uploadPromise;
+      this.logger.debug('上传文件成功');
+
+      return {
+        name: encodedOriginalname,
+        key: fileKey,
+        size: file.size,
+        extension: ext,
+        mimeType: file.mimetype,
+        hash: result.ETag,
+      };
+    } catch (error) {
+      this.logger.error(`上传文件失败: ${error.message}`);
+      throw new InternalServerErrorException('上传文件失败');
+    } finally {
+      if (tempFilePath) {
+        await fs.rm(tempFilePath);
+        this.logger.debug(`删除临时文件 ${tempFilePath}`);
+      }
+    }
+  }
+
+  async saveFile(data: Prisma.UploadFileCreateInput) {
+    return this.prisma.uploadFile.create({
+      data,
+    });
   }
 }

@@ -42,7 +42,19 @@ const UploadFile = ({ files, setFiles }: Props) => {
   });
 
   useEffect(() => {
-    setFiles([...acceptedFiles]);
+    if (acceptedFiles.length > 0) {
+      setFiles((prevFiles) => {
+        if (prevFiles.length + acceptedFiles.length > 10) {
+          toast.error('最多可上传10个文件');
+          return prevFiles;
+        }
+
+        const newFiles = acceptedFiles.filter((file) =>
+          prevFiles.every((f) => f.name !== file.name),
+        );
+        return [...prevFiles, ...newFiles];
+      });
+    }
   }, [acceptedFiles, setFiles]);
 
   const handleDelete = (file: File) => {

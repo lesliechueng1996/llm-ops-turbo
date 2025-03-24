@@ -149,6 +149,8 @@ const request = async <T>(
   ) {
     options.body = JSON.stringify(body);
     headers.set('Content-Type', 'application/json');
+  } else if (body instanceof FormData) {
+    options.body = body;
   }
 
   // 每次请求时获取最新的状态

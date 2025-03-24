@@ -1,4 +1,5 @@
 export * from './generate-credential';
+export * from './save-file';
 
 export const ALLOWED_IMAGE_EXTENSIONS = [
   'png',
