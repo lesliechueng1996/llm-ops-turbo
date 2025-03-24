@@ -1,3 +1,5 @@
+import { uploadFile } from '@/apis/upload-file';
+import LoadingButton from '@/components/LoadingButton';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { defineStepper } from '@stepperize/react';
@@ -8,8 +10,6 @@ import { toast } from 'sonner';
 import DataProcess from './components/DataProcess';
 import SplitSettings, { SplitSettingsRule } from './components/SplitSettings';
 import UploadFile from './components/UploadFile';
-import LoadingButton from '@/components/LoadingButton';
-import { uploadFile } from '@/apis/upload-file';
 
 const { useStepper, steps, utils } = defineStepper(
   {

@@ -1,3 +1,4 @@
+import { AsyncLocalStorage } from 'node:async_hooks';
 import {
   BadRequestException,
   Controller,
@@ -9,6 +10,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiTags } from '@nestjs/swagger';
 import {
   ALLOWED_IMAGE_EXTENSIONS,
@@ -18,14 +20,12 @@ import {
   GenerateCredentialResDto,
   SaveFileResDto,
 } from '@repo/lib-api-schema';
+import { AlsContext } from '../../common/als/als.type';
 import { ApiOperationWithErrorResponse } from '../../decorator/swagger.decorator';
 import { JwtAuthGuard } from '../../guard/jwt-auth.guard';
-import { UploadFileService } from './upload-file.service';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { FileValidationPipe } from '../../pipe/file-validation.pipe';
-import { AsyncLocalStorage } from 'node:async_hooks';
-import { AlsContext } from '../../common/als/als.type';
 import { FileUploadDto } from './upload-file.dto';
+import { UploadFileService } from './upload-file.service';
 
 @ApiTags('Upload File')
 @Controller('upload-file')
