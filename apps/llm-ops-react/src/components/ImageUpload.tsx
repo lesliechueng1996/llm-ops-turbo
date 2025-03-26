@@ -10,7 +10,6 @@ import {
 } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 import { ALLOWED_IMAGE_EXTENSIONS, ALLOWED_IMAGE_SIZE } from '@/lib/entity';
-import { ApiError } from '@/lib/http';
 import { cn, getErrorMessage } from '@/lib/utils';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import COS from 'cos-js-sdk-v5';

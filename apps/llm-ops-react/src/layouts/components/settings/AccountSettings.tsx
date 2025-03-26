@@ -1,7 +1,6 @@
 import { updateAvatar, updateName, updatePassword } from '@/apis/account';
 import ImageUpload from '@/components/ImageUpload';
 import LabelWrap from '@/components/LabelWrap';
-import { ApiError } from '@/lib/http';
 import { getErrorMessage } from '@/lib/utils';
 import useAccountStore from '@/stores/account';
 import {

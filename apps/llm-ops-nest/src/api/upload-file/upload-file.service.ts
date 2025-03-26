@@ -134,4 +134,13 @@ export class UploadFileService {
       data,
     });
   }
+
+  async getUploadFiles(ids: string[], accountId: string) {
+    return this.prisma.uploadFile.findMany({
+      where: {
+        id: { in: ids },
+        accountId,
+      },
+    });
+  }
 }

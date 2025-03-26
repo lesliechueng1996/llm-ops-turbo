@@ -6,5 +6,6 @@ import { UploadFileService } from './upload-file.service';
 @Module({
   controllers: [UploadFileController],
   providers: [UploadFileService, FileValidationPipe],
+  exports: [UploadFileService],
 })
 export class UploadFileModule {}

@@ -14,7 +14,7 @@ type Props = {
 
 const SpaceLayout = ({ children, label }: Props) => {
   const { keyword, setKeyword } = useSearchKeyword();
-  const { open, openModal } = useSpaceCreateModal();
+  const { openModal } = useSpaceCreateModal();
 
   return (
     <HeaderLayout

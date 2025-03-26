@@ -2,6 +2,7 @@ import { BullModule } from '@nestjs/bullmq';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ConsumerModule } from './consumer/consumer.module';
+import { IndexModule } from './index/index.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ConsumerModule } from './consumer/consumer.module';
       inject: [ConfigService],
     }),
     ConsumerModule,
+    IndexModule,
   ],
 })
 export class AppModule {}

@@ -13,6 +13,7 @@ import { AlsMiddleware } from './common/als/als.middleware';
 import { AlsModule } from './common/als/als.module';
 import { PrismaModule } from './common/prisma/prisma.module';
 import { ProducerModule } from './producer/producer.module';
+import { DocumentModule } from './api/document/document.module';
 
 @Module({
   imports: [
@@ -61,6 +62,7 @@ import { ProducerModule } from './producer/producer.module';
     UploadFileModule,
     DatasetModule,
     HealthModule,
+    DocumentModule,
   ],
 })
 export class AppModule implements NestModule {
